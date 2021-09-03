@@ -1,28 +1,55 @@
 import React, { Component } from "react";
 import axios from 'axios';
-
+import qs from 'querystring'
+let token = null
 const header = {
 
-    "Access-Control-Allow-Origin": "*"
+    "Access-Control-Allow-Origin": "*",
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
 }
 let URL="80.87.192.94:8080/api/login";
 
-class App extends Component {
+class Request extends Component {
 
 
 
     handleSubmit(event, username, password) {
-        axios.post(URL,null, {params:{
-                "username": username,
-                "password": password
-            },
-            headers:header}).
-        then(function (response) {
-            console.log(response);
+        fetch(URL, {
+            method: 'POST',
+            headers: header,
+            body: new URLSearchParams({
+                'login': username,
+                'password': password
+            })
         })
-            .catch(function (error) {
-                console.log(error);
+            .then(res => {
+                console.log(res);
+                const jsonResponse = JSON.parse(res);
+                if (jsonResponse.status == "success")
+                    token = jsonResponse.token;
+                else
+                    console.log(jsonResponse.error);
+
+
             });
+
+        // axios.post(URL, body: qs.stringify({
+        //         'username': username,
+        //         'password': password,
+        //     }),
+        //     headers:header}).
+        // then(function (response) {
+        //     console.log(response);
+        //     const jsonResponse = JSON.parse(response);
+        //     if (jsonResponse.status == "success")
+        //         token = jsonResponse.token;
+        //     else
+        //         console.log(jsonResponse.error);
+        //
+        // })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
         event.preventDefault();
 
     }
