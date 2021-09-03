@@ -1,17 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import Request from './classes/request.jsx';
+import Map from './classes/map.jsx';
+import { ChainId, DAppProvider } from "@usedapp/core";
+import ConnectWallet from './classes/connectButton.jsx';
+
+const config = {
+  readOnlyChain: ChainId.Kovan,
+  readOnlyUrls: {
+    [ChainId.Kovan]: 'https://mainnet.infura.io/v3/912668c188114c6fb74af1746ada48c5',
+  },
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <DAppProvider config={config}>
+      <ConnectWallet/>
+    </DAppProvider>
   </React.StrictMode>,
-  document.getElementById('root')
-);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+  document.getElementById('root')
+);  
