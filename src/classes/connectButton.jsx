@@ -1,5 +1,6 @@
 import React from "react"; 
-import { useEtherBalance, useEthers , useContractFunction} from '@usedapp/core'
+import { useEtherBalance, useEthers, ContractCall, useContractCall} from '@usedapp/core'
+import PropTypes from 'prop-types'
 import {formatEther} from '@ethersproject/units'
 import { utils } from 'ethers'
 import { Contract } from '@ethersproject/contracts'
@@ -10,16 +11,10 @@ export function ConnectWallet() {
     const etherBalance = useEtherBalance(account)
   
     const contractAbi = new utils.Interface(abi)
-    const contractAddress = '0xA243FEB70BaCF6cD77431269e68135cf470051b4'
+    const contractAddress = '0xd2435293340E537BAcD2feD2f700B204C707518d'
     const contract = new Contract(contractAddress, contractAbi)
 
-    const { state, send } = useContractFunction(contract, 'getOwner')
-    
-    const depositEther = (etherAmount) => {
-        send({ value: utils.parseEther(etherAmount) })
-    }
-
-    console.log(state)
+    // let zxc = ContractCall(contractAbi, contractAddress, "landlord")
 
     return (
     <div>
