@@ -1,70 +1,53 @@
 import React, { Component } from "react";
-import axios from 'axios';
-import qs from 'querystring'
-let token = null
-const header = {
+let token = not;
 
-    "Access-Control-Allow-Origin": "*",
+
+const header = {
+    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
 }
-let URL="80.87.192.94:8080/api/login";
+let URL="http://80.87.192.94:8080/api/login";
 
 class Request extends Component {
+    handleSubmit() {
 
-
-
+    }
     handleSubmit(event, username, password) {
         fetch(URL, {
             method: 'POST',
             headers: header,
             body: new URLSearchParams({
-                'login': username,
-                'password': password
-            })
+                'username': 'user',
+                'password': 'user'}).toString()
         })
-            .then(res => {
-                console.log(res);
-                const jsonResponse = JSON.parse(res);
-                if (jsonResponse.status == "success")
-                    token = jsonResponse.token;
+            .then((response) => response.json())
+            .then((responseData) => {
+                const object = JSON.stringify(responseData)
+                const data = JSON.parse(object)
+                if (data.status == "success") {
+                        token = data.token;
+                      console.log(data.token);
+
+                    }
                 else
-                    console.log(jsonResponse.error);
-
-
+                    console.log(data.error);
             });
-
-        // axios.post(URL, body: qs.stringify({
-        //         'username': username,
-        //         'password': password,
-        //     }),
-        //     headers:header}).
-        // then(function (response) {
-        //     console.log(response);
-        //     const jsonResponse = JSON.parse(response);
-        //     if (jsonResponse.status == "success")
-        //         token = jsonResponse.token;
-        //     else
-        //         console.log(jsonResponse.error);
-        //
-        // })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     });
         event.preventDefault();
-
     }
 
+
+
+
     render() {
-
         return(
+            <form onsubmit={this.handleSubmit}} >
 
-            <form onSubmit={this.handleSubmit}>
-                <input type="submit" value="Submit" />
+                <input type="text" name = 'username'/><br/>
+                <input type="text" name = 'password'/><br/>
+                <button  type="submit" value="Submit" onClick={()=>{this.props.updateData(token)}}>SUBMIT</button>
             </form>
 
         );
     }
-
 }
-
-export default App;
+export default Request;
