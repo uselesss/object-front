@@ -5,18 +5,18 @@ import Request from "./request";
 
 class UserData extends React.Component {
     state = {
-        token: null
+        token: -2
     };
 
-    updateData = (event,value) => {
-        this.setState({ name: value })
+    updateData = (value) => {
+        this.setState({ token: value })
 
     }
 
     render() {
         return (
             <div>
-                <p>State: {this.state.name}</p>
+                <p>State: {this.state.token}</p>
                 <Request updateData={this.updateData} />
             </div>
         )
