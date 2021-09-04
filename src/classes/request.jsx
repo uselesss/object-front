@@ -28,13 +28,14 @@ class Request extends Component {
 
 
     handleSubmit(event) {
-        if(con === false) {
+        event.preventDefault();
+        if(con === false) { 
             fetch(URL, {
                 method: 'POST',
                 headers: header,
                 body: new URLSearchParams({
-                    'username': 'user',//this.state.username,
-                    'password': 'user'//this.state.password
+                    'username': this.state.username,
+                    'password': this.state.password
 
                 }).toString()
             })
@@ -52,7 +53,7 @@ class Request extends Component {
                     }
                 });
         }
-         event.preventDefault();
+
     }
     render() {
         return(
@@ -65,7 +66,7 @@ class Request extends Component {
                      Password:
                     <input type="text" name = 'password' value={this.state.password} onChange={this.onChangePassword}/><br/>
                  </label>
-                 <button  type="submit" value="Submit" onClick={(event) => { event.preventDefault();this.props.updateData(token)}}>SUBMIT</button>
+                 <button  type="submit" value="Submit" onClick={() => { this.props.updateData(token)}}>SUBMIT</button>
              </form>
 
         );
