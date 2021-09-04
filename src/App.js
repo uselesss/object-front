@@ -11,7 +11,12 @@ import Contacts from './contacts';
 import Lots from './lots';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+import useWeb3 from "./useWeb3";
+import { useStoreApi } from "./storeApi";
+
 import ConnectButton from './connectButton';
+import Deposit from './handlePayments';
+
 
 const drawerWidth = 220;
 
@@ -50,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function App() {
     const classes = useStyles();
+    
+    const { balance, address, message, setAddress, setBalance } = useStoreApi(); 
+    const web3 = useWeb3();
 
     return (
         <Router>
@@ -61,7 +69,13 @@ export default function App() {
                         <div style={{
                           display: "block",
                           transform: "translate(54rem, 0)"
-                        }}><ConnectButton/></div>
+                        }}><ConnectButton/>
+                        {message ? (
+                        <p>
+                            <code>{message}</code>
+                        </p>
+                        ) : null}
+                        </div>
                         
                     </Toolbar>
                 </AppBar>
@@ -101,11 +115,7 @@ export default function App() {
 
                             <div className={classes.deposit}/>
                             
-                            <TextField required label="ETH value" variant="filled" />
-                            <ListItem button key="Deposit">
-                                <ListItemIcon> <Forum /> </ListItemIcon>
-                                    <Typography><a> DEPOSIT </a></Typography>
-                            </ListItem>
+                            <Deposit/>
                         </List>
                     </div>
                 </Drawer>

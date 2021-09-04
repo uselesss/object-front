@@ -3,6 +3,7 @@ import useWeb3 from "./useWeb3";
 
 import { Button } from "@material-ui/core";
 
+
 function ConnectButton() {
   const { balance, address, message, setAddress, setBalance } = useStoreApi();
   const web3 = useWeb3();
@@ -30,26 +31,22 @@ function ConnectButton() {
     });
   };
 
-  const sendTransaction = async e => {
-    e.preventDefault();
-    const amount = e.target[0].value;
-    const recipient = e.target[1].value;
-    await web3.eth.sendTransaction({
-      from: address,
-      to: recipient,
-      value: web3.utils.toWei(amount, "ether")
-    });
-    updateBalance(address);
-  };
-
-  return (
-    <Button
+  function renderIfTrue (props) {
+    const isTrue = props.isTrue;
+    console.log(isTrue);
+    if (!isTrue) {
+      return(<Button
         onClick={() => getUserAccount()}
         variant="outlined"
         color="primary"
-    >
+        >
         Подключить кошелек
-    </Button>
+        </Button>);
+    }
+  }
+
+  return (
+    <renderIfTrue isTrue={false} />
   );
 }
 
