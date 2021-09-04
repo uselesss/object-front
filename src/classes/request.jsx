@@ -65,7 +65,7 @@ class Request extends Component {
                      Password:
                     <input type="text" name = 'password' value={this.state.password} onChange={this.onChangePassword}/><br/>
                  </label>
-                 <button  type="submit" value="Submit" onClick={() => { this.props.updateData(token)}}>SUBMIT</button>
+                 <button  type="submit" value="Submit" onClick={(event) => { event.preventDefault();this.props.updateData(token)}}>SUBMIT</button>
              </form>
 
         );
