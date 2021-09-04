@@ -29,7 +29,7 @@ class Request extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        if(con === false) { 
+        if(con === false) {
             fetch(URL, {
                 method: 'POST',
                 headers: header,
