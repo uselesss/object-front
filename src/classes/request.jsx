@@ -1,53 +1,73 @@
 import React, { Component } from "react";
-let token = not;
-
-
+let token = null;
+let con = false;
 const header = {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
 }
 let URL="http://80.87.192.94:8080/api/login";
 
+
 class Request extends Component {
-    handleSubmit() {
+    newVar;
 
+    constructor(props) {
+        super(props);
+
+        this.state = {username: '', password: ''};
+        this.onChangeUsername = this.onChangeLogin.bind(this);
+        this.onChangePassword = this.onChangePassword.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
-    handleSubmit(event, username, password) {
-        fetch(URL, {
-            method: 'POST',
-            headers: header,
-            body: new URLSearchParams({
-                'username': 'user',
-                'password': 'user'}).toString()
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                const object = JSON.stringify(responseData)
-                const data = JSON.parse(object)
-                if (data.status == "success") {
-                        token = data.token;
-                      console.log(data.token);
+    onChangeUsername(event) {
+        this.setState({username: event.target.value});
+    }
+    onChangePassword(event){
+        this.setState({password: event.target.value});
+    }
 
+    handleSubmit(event) {
+        if(con === false) {
+            fetch(URL, {
+                method: 'POST',
+                headers: header,
+                body: new URLSearchParams({
+                    'username': username,
+                    'password': password
+                }).toString()
+            })
+                .then((response) => response.json())
+                .then((responseData) => {
+                    const object = JSON.stringify(responseData)
+                    console.log('login');
+                    const data = JSON.parse(object);
+                    if (data.status == "success") {
+
+                        token = data.token;
+                        con = true;
+                        console.log(token);
                     }
-                else
-                    console.log(data.error);
-            });
+                });
+        }
         event.preventDefault();
     }
-
-
-
-
     render() {
         return(
-            <form onsubmit={this.handleSubmit}} >
-
-                <input type="text" name = 'username'/><br/>
-                <input type="text" name = 'password'/><br/>
-                <button  type="submit" value="Submit" onClick={()=>{this.props.updateData(token)}}>SUBMIT</button>
-            </form>
+             <form onSubmit={this.handleSubmit}>
+                 <label>
+                     Username:
+                 <input type="text" name = 'username' value={this.state.username} onChange={this.onChangeUssername} /><br/>
+                 </label>
+                 <label>
+                     Password:
+                 <input type="text" name = 'password' value={this.state.password}/><br/>
+                 </label>
+                 <button  type="submit" value="Submit" onChange={this.onChangePassword}>SUBMIT</button>
+             </form>
 
         );
     }
 }
+
+
 export default Request;
