@@ -32,7 +32,6 @@ a:active {
 
 body {
     background-color: black;
-    overflow: hidden;
 }
 
 h1, h2, h3, h4, h5, body2, p {
@@ -46,10 +45,8 @@ h1, h2, h3, h4, h5, body2, p {
 
 .logoMainPage {
     -webkit-user-drag: none;
-    align-items: center;
-    justify-content: center;
-    /* margin-top: 17rem;
-    margin-left: 33rem; */
+    margin-top: 17rem;
+    margin-left: 33rem;
 }
 
 .logoContacts {
@@ -59,12 +56,35 @@ h1, h2, h3, h4, h5, body2, p {
     max-height: auto;
 }
 
-.mainPageDiv {
-    display: flex;
-    
-    margin-top: 220px;
-    margin-left: 220px;
+.cardsGrid {
+    margin-left: 230px;
+    margin-top: 90px;
+}
 
-    align-items: center;
-    justify-content: center;
+.space {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.form {
+    margin: 5rem;
+}
+
+.loginDiv {
+    margin-top: 12rem;
+    margin-left: 44rem;
+}
+
+.profileDiv {
+    margin: 20rem;
+}
+
+.textsAdmin {
+    margin-left: 240px;
+    margin-top: 120px;
+}
+
+.cardsGridAdmin {
+    margin-left: 220px;
+    margin-top: 10px;
 }

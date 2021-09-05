@@ -28,10 +28,14 @@ const useStyles = makeStyles({
 });
 
 class Lots extends Component {
+    
+    constructor () {
+        super();
+        this.handleSubmit();
+    };
 
-    handleSubmit(event) {
-        event.preventDefault();
-        fetch("http://80.87.192.94:8080/api/admin/getLots", {
+    handleSubmit() {
+        fetch("http://80.87.192.94:8080/api/contract/getAllAuction", {
             method: 'POST',
             headers: header,
             body: null
@@ -40,35 +44,32 @@ class Lots extends Component {
             .then((responseData) => {
                 const object = JSON.stringify(responseData);
                 const data = JSON.parse(object);
-                console.log(data);
-                propsForCard = data;
+
+                propsForCard = data.auctions;
+                console.log(propsForCard);
+                console.log(propsForCard.length);  
             });
     }
 
     render() {
 
         return (
-            <div className="cardsGrid">
-                <form onSubmit={this.handleSubmit} className="form">
-                    <input type="submit" value="Submit" />
-                </form>
+            <div className="cardsGrid">{this.props.propsForCard}
                     <Grid container spacing={4}>
                         <Grid item xs={12} sm={6} md={4}>
-                            <div>
-                                {MediaCard(propsForCard)}
-                            </div>
+                            <MediaCard id ={5} square={500} status={"занят"} boolStatus={false}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <MediaCard />
+                        <MediaCard id ={4} square={120} status={"свободен"} boolStatus={true}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <MediaCard />
+                        <MediaCard id ={3} square={120} status={"свободен"} boolStatus={true}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <MediaCard />
+                        <MediaCard id ={2} square={120} status={"занят"} boolStatus={false}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <MediaCard />
+                        <MediaCard id ={1} square={120} status={"свободен"} boolStatus={true}/>
                     </Grid>
                     </Grid>
             </div>
@@ -77,29 +78,29 @@ class Lots extends Component {
 }
 
 function MediaCard(props) {
-    /*const classes = useStyles();*/
+    // const classes = useStyles();
 
-    console.log(props);
+    // console.log(props);
 
     return (
         <Card>
- {/*           <Card className={classes.root}>*/}
+           {/* <Card className={classes.root}> */}
             <CardActionArea>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                        Area #{props.id}
+                        Лот #{props.id}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        Square {props.square} m^2
+                        Площадь: {props.square} м^2
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        Status {props.status}
+                        Статус: {props.status}
                     </Typography>
                 </CardContent>
             </CardActionArea>
             <CardActions>
                 <Button size="medium" color="primary">
-                    Applicate
+                    {props.boolStatus ? ("Предложить цену"):("Лот занят")}
                 </Button>
             </CardActions>
         </Card>

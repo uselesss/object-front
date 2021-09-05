@@ -3,9 +3,8 @@ import useWeb3 from "./useWeb3";
 
 import { Button, TextField } from "@material-ui/core";
 import jsonAbi from "./abi/rentContract.json";
-import Withdraw from "./adminWithdraw.js";
 
-function Deposit() {
+function Withdraw() {
   const { balance, address, message, setAddress, setBalance } = useStoreApi();
   const web3 = useWeb3();
 
@@ -16,12 +15,14 @@ function Deposit() {
     const accounts = await web3.eth.getAccounts();
     const sender = accounts[0].toString();
     
+    const wamount = web3.utils.toWei(amount, "ether");
+
     var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052");
     
-    var transact = await RentContract.methods.deposit(sender).send(
+    var transact = await RentContract.methods.withdraw(sender, wamount).send(
       { 
         from: sender, 
-        value: web3.utils.toWei(amount.toString(), "ether"), 
+        value: 0, 
         gas: 4000000
       }, 
       (err, res) => 
@@ -30,7 +31,7 @@ function Deposit() {
       
   }; 
 
-  return address ? (
+  return (
     
     <form onSubmit={e => sendTransaction(e)}>
       <TextField
@@ -44,10 +45,10 @@ function Deposit() {
       variant="filled"
       color="primary"
       type="submit">
-      Пополнить счет
+      Вывести средства
       </Button>
     </form>
-    ) : (<a/>);
+  );
 }
 
-export default Deposit; 
+export default Withdraw; 

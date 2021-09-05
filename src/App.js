@@ -11,12 +11,16 @@ import Contacts from './contacts';
 import Lots from './lots';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+import Admin from "./admin";
+
 import useWeb3 from "./useWeb3";
 import { useStoreApi } from "./storeApi";
 
 import ConnectButton from './connectButton';
 import Deposit from './handlePayments';
 
+import Login from './auth/Login';
+import Profile from './auth/Profile';
 
 const drawerWidth = 220;
 
@@ -58,6 +62,8 @@ export default function App() {
     
     const { balance, address, message, setAddress, setBalance } = useStoreApi(); 
     const web3 = useWeb3();
+    
+
 
     return (
         <Router>
@@ -65,10 +71,10 @@ export default function App() {
                 <CssBaseline />
                 <AppBar position="fixed" className={classes.appBar}>
                     <Toolbar>
-                        <h1>Сервис Аренды Шереметьево</h1>
+                        <h1>SVO Аренда</h1>
                         <div style={{
                           display: "block",
-                          transform: "translate(54rem, 0)"
+                          transform: "translate(69rem, 0)"
                         }}><ConnectButton/>
                         {message ? (
                         <p>
@@ -91,25 +97,25 @@ export default function App() {
                         <List>
                             <ListItem button key="Home page" onTouchTap={<a href="/"/>}>
                                 <ListItemIcon> <HomeIcon /> </ListItemIcon>
-                                    <Typography><a href="/"> Home page </a></Typography>
+                                    <Typography><a href="/"> Домой </a></Typography>
                             </ListItem>
                             <Divider />
                             <ListItem button key="Areas map">
                                 <ListItemIcon> <BorderAll /> </ListItemIcon>
-                                    <Typography><a href="/map"> Areas map </a></Typography>
+                                    <Typography><a href="/map"> Карта </a></Typography>
                             </ListItem>
                             <ListItem button key="Lots">
                                 <ListItemIcon> <FilterNone /> </ListItemIcon>
-                                <Typography><a href="/lots"> Lots </a></Typography>
+                                <Typography><a href="/lots"> Лоты </a></Typography>
                             </ListItem>
                             <Divider />
                             <ListItem button key="Terms">
                                 <ListItemIcon> <Forum /> </ListItemIcon>
-                                    <Typography><a href="/terms"> Terms </a></Typography>
+                                    <Typography><a href="/terms"> Условия </a></Typography>
                             </ListItem>
                             <ListItem button key="Contact us">
                                 <ListItemIcon> <LocalPhone /> </ListItemIcon>
-                                    <Typography><a href="/contacts"> Contact us </a></Typography>
+                                    <Typography><a href="/contacts"> Контакты </a></Typography>
                             </ListItem>
                             <Divider />
 
@@ -119,14 +125,16 @@ export default function App() {
                         </List>
                     </div>
                 </Drawer>
-            </div>
-            <Switch>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/map" component={Map} />
-                <Route exact path="/lots" component={Lots} />
-                <Route exact path="/terms" component={Terms} />
-                <Route exact path="/contacts" component={Contacts} />
-            </Switch>
-        </Router>
+                </div>
+                <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/map" component={Map} />
+                    <Route exact path="/lots" component={Lots} />
+                    <Route exact path="/terms" component={Terms} />
+                    <Route exact path="/contacts" component={Contacts} />
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/admin" component={Admin} />
+                </Switch>
+            </Router>
     );
 }

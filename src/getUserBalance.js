@@ -1,11 +1,9 @@
 import { useStoreApi } from "./storeApi";
 import useWeb3 from "./useWeb3";
 
-import { Button, TextField } from "@material-ui/core";
 import jsonAbi from "./abi/rentContract.json";
-import Withdraw from "./adminWithdraw.js";
 
-function Deposit() {
+function getUSerBalance() {
   const { balance, address, message, setAddress, setBalance } = useStoreApi();
   const web3 = useWeb3();
 
@@ -28,6 +26,7 @@ function Deposit() {
       err ? console.log(`error ${err}`): console.log(`Success ${res}`)
       );
       
+    console.log(transact);
   }; 
 
   return address ? (

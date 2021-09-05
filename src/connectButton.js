@@ -2,6 +2,8 @@ import { useStoreApi } from "./storeApi";
 import useWeb3 from "./useWeb3";
 
 import { Button } from "@material-ui/core";
+import { useEffect } from "react";
+import jsonAbi from "./abi/rentContract.json";
 
 
 function ConnectButton() {
@@ -17,6 +19,7 @@ function ConnectButton() {
           setAddress(accounts[0]);
           updateBalance(accounts[0]);
         });
+        
       } catch (error) {
         console.error(error);
       }
@@ -24,6 +27,10 @@ function ConnectButton() {
       alert("Metamask extensions not detected!");
     }
   };
+  
+  useEffect(() => {
+    console.log("zxc deadinside");
+  }, [address]);
 
   const updateBalance = async fromAddress => {
     await web3.eth.getBalance(fromAddress).then(value => {
@@ -31,22 +38,32 @@ function ConnectButton() {
     });
   };
 
-  function renderIfTrue (props) {
-    const isTrue = props.isTrue;
-    console.log(isTrue);
-    if (!isTrue) {
-      return(<Button
+  const getBalance = async (e) => {
+    const accounts = await web3.eth.getAccounts();
+    const sender = accounts[0].toString();
+    
+    var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052");
+    
+    var balance = await RentContract.methods.balances(sender).call();
+    
+    return balance;
+  }; 
+
+  return address ?(
+    <div>
+      {address.slice(0, 6)}...{address.slice(
+              address.length - 4,
+              address.length
+        )}
+    </div>
+  ) : (
+    <Button
         onClick={() => getUserAccount()}
         variant="outlined"
         color="primary"
         >
         Подключить кошелек
-        </Button>);
-    }
-  }
-
-  return (
-    <renderIfTrue isTrue={false} />
+        </Button>
   );
 }
 
