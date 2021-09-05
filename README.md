@@ -46,7 +46,7 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 To learn React, check out the [React documentation](https://reactjs.org/).
 
 ### Code Splitting
-
+-
 This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
 ### Analyzing the Bundle Size
@@ -68,3 +68,26 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+#Front-end
+Для разработки технологий использовались React + Web3JS
+Возможности Admin панели:
+- Вывод средств с помощью BlockChain (используется MetaMask)
+- Просмотр всех пользователей
+- Просмотр общих платежей за каждый месяц
+- Диаграмма общих платежей за месяц
+- Просмотр, создание и редактирование лотов (площадей для аренды)
+
+#Процесс установки 
+Необходимые пакеты:
+- VSCode
+- Node.js
+- React
+Установка дополнительных пакетов:
+ написать в командной строке npm install
+ 
+Запуск:
+ написать в командной строке npm start
+
