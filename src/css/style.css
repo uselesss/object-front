@@ -39,6 +39,14 @@ h1, h2, h3, h4, h5, body2, p {
     font-family: Courier;
 }
 
+.terms {
+    font-family: Courier;
+    font-size: large;
+    margin-left: 230px;
+    margin-top: 90px;
+    line-break: auto;
+}
+
 .header {
     margin-top: 4rem;
 }
@@ -50,6 +58,8 @@ h1, h2, h3, h4, h5, body2, p {
 }
 
 .mainPageDiv {
+    font-family: Courier;
+    font-size: large;
     margin-left: 230px;
     margin-top: 90px;
 }

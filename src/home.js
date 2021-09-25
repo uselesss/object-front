@@ -19,10 +19,11 @@ import { AccountTree } from '@material-ui/icons';
 let mounted = false;
 
 function UserRents() {
-    const { balance, address, message, setAddress, setBalance } = useStoreApi();
+    const { balance, address, message, setAddress } = useStoreApi();
     const web3 = useWeb3();
     
     const [cards, setCards] = useState();
+    const [contBalance, setBalance] = useState();
 
     useEffect(async () => {
         if (web3 && !mounted) {
@@ -37,6 +38,12 @@ function UserRents() {
                 var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
                 var contract = await RentContract.methods.rentContracts(id).call()
                 return contract
+            }
+
+            const getBalance = async (userAddress) => {
+                var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
+                var balance = await RentContract.methods.balances(userAddress).call()
+                return balance
             }
 
             let rentsCount = await getContractsLength()
@@ -66,6 +73,11 @@ function UserRents() {
                 }
 
                 setCards(cardsRender)
+
+
+                //get the balance
+                let bal = await getBalance(accounts[0].toString())
+                setBalance(bal / 1e18)
             }
             else {
                 setCards(<h2 style={{marginTop: "20px", marginLeft: "20px"}}>MetaMask не подключен!</h2>)
@@ -76,7 +88,9 @@ function UserRents() {
 
     return (
         <div className="mainPageDiv">
+            <div>Ваш баланс: {contBalance ? contBalance : "..."} ETH 😳</div>
             <div>Ваши лоты:</div>
+
             <Grid container spacing={4}>
                 {cards}
             </Grid>
