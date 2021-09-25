@@ -7,6 +7,7 @@ import { StoreProvider } from "./store";
 ReactDOM.render(
   <React.StrictMode>
     <StoreProvider>
+      <style>{'body { background-color: #0d1117; }'}</style>
       <App />
     </StoreProvider>
   </React.StrictMode>,

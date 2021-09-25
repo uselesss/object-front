@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -8,7 +8,11 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Collapse, Grid } from '@material-ui/core';
-import { ExpandLess, ExpandMore } from '@material-ui/icons';
+import { ExpandLess, ExpandMore, InfoSharp } from '@material-ui/icons';
+
+import { useStoreApi } from "./storeApi";
+import useWeb3 from "./useWeb3";
+import jsonAbi from "./abi/rentContract.json";
 
 const header = {
     'Access-Control-Allow-Origin': '*',
@@ -16,6 +20,7 @@ const header = {
 
 /*let data = {}*/
 let propsForCard = {};
+let mounted = false;
 
 const useStyles = makeStyles({
     root: {
@@ -27,71 +32,111 @@ const useStyles = makeStyles({
     },
 });
 
-class Lots extends Component {
+function Lots() {
+
+    const { balance, address, message, setAddress, setBalance } = useStoreApi();
+    const web3 = useWeb3();
+
+    const [cards, setCards] = useState();
     
-    constructor () {
-        super();
-        this.handleSubmit();
-    };
+    useEffect(async () => {
 
-    handleSubmit() {
-        fetch("http://80.87.192.94:8080/api/contract/getAllAuction", {
-            method: 'POST',
-            headers: header,
-            body: null
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                const object = JSON.stringify(responseData);
-                const data = JSON.parse(object);
+        if (web3 && !mounted) {
+            mounted = true // чтобы не вызывалось 200 раз
 
-                propsForCard = data.auctions;
-                console.log(propsForCard);
-                console.log(propsForCard.length);  
-            });
-    }
+            const getContractsLength = async () => {
+                var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
+                var rentsCount = await RentContract.methods.getContractsLength().call()
+                return rentsCount
+            }
 
-    render() {
+            const getContract = async (id) => {
+                var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
+                var contract = await RentContract.methods.rentContracts(id).call()
+                return contract
+            }
 
-        return (
-            <div className="cardsGrid">{this.props.propsForCard}
-                    <Grid container spacing={4}>
+            let rentsCount = await getContractsLength()
+
+            let cardsRender = [];
+
+            for (let i = 0; i < rentsCount; i++) {
+                let info = await getContract(i)
+
+                if (info) {
+                    cardsRender.push(
                         <Grid item xs={12} sm={6} md={4}>
-                            <MediaCard id ={5} square={500} status={"занят"} boolStatus={false}/>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <MediaCard id ={4} square={120} status={"свободен"} boolStatus={true}/>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <MediaCard id ={3} square={120} status={"свободен"} boolStatus={true}/>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <MediaCard id ={2} square={120} status={"занят"} boolStatus={false}/>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <MediaCard id ={1} square={120} status={"свободен"} boolStatus={true}/>
-                    </Grid>
-                    </Grid>
-            </div>
-        );
-    }
+                            <MediaCard
+                                id={i}
+                                area={info.area}
+                                status={info.isOccupied ? "Занято" : "Свободно"}
+                                price={info.monthlyPrice}
+                                rentStatus={info.isOccupied ? ("Лот занят") : ("Арендовать за " + (info.monthlyPrice / 10 ** 18).toString()) + " ETH"}
+                                boolStatus={info.isOccupied}
+                            />
+                        </Grid>
+                    )
+                }
+            }
+
+            setCards(cardsRender)
+        }
+    });
+
+
+    return (
+        <div className="cardsGrid">
+            <Grid container spacing={4}>
+                {cards}
+            </Grid>
+        </div>
+    );
+
 }
 
 function MediaCard(props) {
-    // const classes = useStyles();
+    const { balance, address, message, setAddress, setBalance } = useStoreApi();
+    const web3 = useWeb3();
 
-    // console.log(props);
+    const sign = async e => {
+
+        const accounts = await web3.eth.getAccounts();
+        const sender = accounts[0].toString();
+
+        let newDate = new Date()
+        let day = newDate.getDate();
+        let month = newDate.getMonth();
+        let contractDate = day.toString() + month.toString()
+
+        console.log(props.id)
+        console.log(props.price)
+        console.log(contractDate)
+
+        var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
+        var contract = await RentContract.methods.signContract(
+            props.id,
+            false,
+            day
+        ).send(
+            {
+                from: sender,
+                value: props.price,
+                gas: 4000000
+            },
+            (err, res) => err ? console.log(`error ${err}`) : console.log(`Success ${res}`)
+        );
+
+    }
 
     return (
         <Card>
-           {/* <Card className={classes.root}> */}
             <CardActionArea>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                        Лот #{props.id}
+                        Лот #{props.id + 1}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        Площадь: {props.square} м^2
+                        Площадь: {props.area} м^2
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
                         Статус: {props.status}
@@ -99,9 +144,15 @@ function MediaCard(props) {
                 </CardContent>
             </CardActionArea>
             <CardActions>
+                { props.boolStatus ? 
                 <Button size="medium" color="primary">
-                    {props.boolStatus ? ("Предложить цену"):("Лот занят")}
+                    {props.rentStatus}
+                </Button> 
+                : 
+                <Button size="medium" color="primary" onClick={e => sign(e)}>
+                    {props.rentStatus}
                 </Button>
+                }
             </CardActions>
         </Card>
     );

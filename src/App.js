@@ -5,7 +5,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import HomeIcon from '@material-ui/icons/Home';
 import { LocalPhone, BorderAll, Forum, FilterNone } from '@material-ui/icons';
 import Map from './map';
-import Home from './home';
+import UserRents from './home';
 import Terms from './terms';
 import Contacts from './contacts';
 import Lots from './lots';
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
-        backgroundColor: "#ed8b00",
+        background: "#161b22",
     },
     drawer: {
         width: drawerWidth,
@@ -39,9 +39,13 @@ const useStyles = makeStyles((theme) => ({
     drawerPaper: {
         marginTop: "0.7rem",
         width: drawerWidth,
+        background: "#21262d"
     },
     drawerContainer: {
         overflow: 'auto',
+        color: "#584C7F",
+        textColor: '#ffffff',
+        primaryTextColor: '#ffffff'
     },
     content: {
         flexGrow: 1,
@@ -68,13 +72,14 @@ export default function App() {
     return (
         <Router>
             <div className={classes.root}>
+            
                 <CssBaseline />
                 <AppBar position="fixed" className={classes.appBar}>
                     <Toolbar>
-                        <h1>SVO Аренда</h1>
+                        <h1>Rent service</h1>
                         <div style={{
                           display: "block",
-                          transform: "translate(69rem, 0)"
+                          transform: "translate(68rem, 0)"
                         }}><ConnectButton/>
                         {message ? (
                         <p>
@@ -95,14 +100,10 @@ export default function App() {
                     <Toolbar />
                     <div className={classes.drawerContainer}>
                         <List>
+                            <Divider />
                             <ListItem button key="Home page" onTouchTap={<a href="/"/>}>
                                 <ListItemIcon> <HomeIcon /> </ListItemIcon>
                                     <Typography><a href="/"> Домой </a></Typography>
-                            </ListItem>
-                            <Divider />
-                            <ListItem button key="Areas map">
-                                <ListItemIcon> <BorderAll /> </ListItemIcon>
-                                    <Typography><a href="/map"> Карта </a></Typography>
                             </ListItem>
                             <ListItem button key="Lots">
                                 <ListItemIcon> <FilterNone /> </ListItemIcon>
@@ -127,7 +128,7 @@ export default function App() {
                 </Drawer>
                 </div>
                 <Switch>
-                    <Route exact path="/" component={Home} />
+                    <Route exact path="/" component={UserRents} />
                     <Route exact path="/map" component={Map} />
                     <Route exact path="/lots" component={Lots} />
                     <Route exact path="/terms" component={Terms} />

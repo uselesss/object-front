@@ -39,7 +39,7 @@ function Contacts() {
                     <div><h1></h1></div>
                     <Typography className={classes.text}>mobile: +79998241231</Typography>
                     <Typography className={classes.text}>fax: +79998241231</Typography>
-                    <Typography className={classes.text}>email: rent@svo.aero</Typography>
+                    <Typography className={classes.text}>email: admin@rent.tech</Typography>
                 </CardContent>
             </Card>
         </div>

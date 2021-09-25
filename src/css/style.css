@@ -49,6 +49,11 @@ h1, h2, h3, h4, h5, body2, p {
     margin-left: 33rem;
 }
 
+.mainPageDiv {
+    margin-left: 230px;
+    margin-top: 90px;
+}
+
 .logoContacts {
     margin-top: -30rem;
     margin-left: 9rem;

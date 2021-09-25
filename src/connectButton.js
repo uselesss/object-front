@@ -52,7 +52,7 @@ function ConnectButton() {
   return address ?(
     <div>
       {address.slice(0, 6)}...{address.slice(
-              address.length - 4,
+              address.length - 12,
               address.length
         )}
     </div>
@@ -60,7 +60,7 @@ function ConnectButton() {
     <Button
         onClick={() => getUserAccount()}
         variant="outlined"
-        color="primary"
+        style={{backgroundColor: "#584C7F", color: "white"}}
         >
         Подключить кошелек
         </Button>

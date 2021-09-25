@@ -1,8 +1,8 @@
 import { useStoreApi } from "./storeApi";
 import useWeb3 from "./useWeb3";
+import jsonAbi from "./abi/rentContract.json";
 
 import { Button, TextField } from "@material-ui/core";
-import jsonAbi from "./abi/rentContract.json";
 
 function Withdraw() {
   const { balance, address, message, setAddress, setBalance } = useStoreApi();
@@ -42,9 +42,10 @@ function Withdraw() {
         variant="filled"
       />
       <Button
-      variant="filled"
-      color="primary"
-      type="submit">
+        variant="filled"
+        color="primary"
+        type="submit"
+      >
       Вывести средства
       </Button>
     </form>
