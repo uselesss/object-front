@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Test from "./images/e_terminal.svg";
-import "./css/style.css";
 
 class Map extends Component {
     render() {

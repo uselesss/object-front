@@ -29,7 +29,7 @@ function ConnectButton() {
   };
   
   useEffect(() => {
-    console.log("zxc deadinside");
+    getUserAccount();
   }, [address]);
 
   const updateBalance = async fromAddress => {

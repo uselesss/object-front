@@ -41,8 +41,7 @@ function Lots() {
     
     useEffect(async () => {
 
-        if (web3 && !mounted) {
-            mounted = true // чтобы не вызывалось 200 раз
+        if (web3) {
 
             const getContractsLength = async () => {
                 var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
@@ -129,30 +128,23 @@ function MediaCard(props) {
     }
 
     return (
-        <Card>
-            <CardActionArea>
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                        Лот #{props.id + 1}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        Площадь: {props.area} м^2
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        Статус: {props.status}
-                    </Typography>
-                </CardContent>
-            </CardActionArea>
+        <Card style={{backgroundColor: "#181a1b"}}>
+            <CardContent>
+                <Typography gutterBottom variant="h5" component="h2" style={{color: "#fff"}}> 
+                    Лот #{props.id + 1}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p" style={{color: "#a3a2a0"}}>
+                    Площадь: {props.area} м^2
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p" style={{color: "#a3a2a0"}}>
+                    Статус: {props.status}
+                </Typography>
+            </CardContent>
             <CardActions>
-                { props.boolStatus ? 
-                <Button size="medium" color="primary">
-                    {props.rentStatus}
-                </Button> 
-                : 
                 <Button size="medium" color="primary" onClick={e => sign(e)}>
                     {props.rentStatus}
-                </Button>
-                }
+                </Button> 
+                
             </CardActions>
         </Card>
     );

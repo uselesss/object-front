@@ -17,8 +17,12 @@ const useWeb3 = () => {
       instance = new Web3(window.web3);
     } else {
       // fallback on localhost provider
-      const provider = new Web3.provider.HttpProvider("http://127.0.0.1:7545");
-      instance = new Web3(provider);
+      if (Web3.provider) {
+        const provider = new Web3.provider.HttpProvider("http://127.0.0.1:7545");
+        instance = new Web3(provider);
+      } else {
+        
+      }
     }
     setWeb3(instance);
   }, []);

@@ -1,26 +1,31 @@
-import React from 'react';
+// React
+import React, {useCallback} from 'react';
+import { BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
+
+// Material-Ui
 import { makeStyles } from '@material-ui/core/styles';
 import { Divider, TextField, Toolbar, Typography, Drawer, List, ListItem, AppBar, CssBaseline } from '@material-ui/core';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import HomeIcon from '@material-ui/icons/Home';
 import { LocalPhone, BorderAll, Forum, FilterNone } from '@material-ui/icons';
+
+// Routing & Components
 import Map from './map';
 import UserRents from './home';
 import Terms from './terms';
 import Contacts from './contacts';
 import Lots from './lots';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
 import Admin from "./admin";
-
-import useWeb3 from "./useWeb3";
 import { useStoreApi } from "./storeApi";
-
 import ConnectButton from './connectButton';
 import Deposit from './handlePayments';
-
 import Login from './auth/Login';
-import Profile from './auth/Profile';
+
+// Css
+import "./css/style.css";
+
+// Web3
+import useWeb3 from "./useWeb3";
 
 const drawerWidth = 220;
 
@@ -43,9 +48,7 @@ const useStyles = makeStyles((theme) => ({
     },
     drawerContainer: {
         overflow: 'auto',
-        color: "#584C7F",
-        textColor: '#ffffff',
-        primaryTextColor: '#ffffff'
+        color: "#584C7F"
     },
     content: {
         flexGrow: 1,
@@ -57,17 +60,15 @@ const useStyles = makeStyles((theme) => ({
     deposit: {
         display: "flex",
         "flex-direction": "column",
-        "min-height": "50vh",
+        marginBottom: "27rem",
     }
 }));
 
 export default function App() {
     const classes = useStyles();
-    
+
     const { balance, address, message, setAddress, setBalance } = useStoreApi(); 
     const web3 = useWeb3();
-    
-
 
     return (
         <Router>
@@ -80,12 +81,8 @@ export default function App() {
                         <div style={{
                           display: "block",
                           transform: "translate(68rem, 0)"
-                        }}><ConnectButton/>
-                        {message ? (
-                        <p>
-                            <code>{message}</code>
-                        </p>
-                        ) : null}
+                        }}>
+                        <ConnectButton/>{message ? (<p><code>{message}</code></p>) : null}
                         </div>
                         
                     </Toolbar>
@@ -101,23 +98,31 @@ export default function App() {
                     <div className={classes.drawerContainer}>
                         <List>
                             <Divider />
-                            <ListItem button key="Home page" onTouchTap={<a href="/"/>}>
-                                <ListItemIcon> <HomeIcon /> </ListItemIcon>
-                                    <Typography><a href="/"> Домой </a></Typography>
-                            </ListItem>
-                            <ListItem button key="Lots">
-                                <ListItemIcon> <FilterNone /> </ListItemIcon>
-                                <Typography><a href="/lots"> Лоты </a></Typography>
-                            </ListItem>
+                            <Link to="/">
+                                <ListItem button key="Home page" >
+                                    <ListItemIcon > <HomeIcon style={{color: "#9e9689"}}/> </ListItemIcon>
+                                        <Typography style={{color: "#e8e6e3"}}> Домой </Typography>
+                                </ListItem>
+                            </Link>
+                            <Link to="/lots">
+                                <ListItem button key="Lots">
+                                    <ListItemIcon> <FilterNone style={{color: "#9e9689"}}/> </ListItemIcon>
+                                    <Typography style={{color: "#e8e6e3"}}> Лоты </Typography>
+                                </ListItem>
+                            </Link>
                             <Divider />
+                            <Link to="/terms">
                             <ListItem button key="Terms">
-                                <ListItemIcon> <Forum /> </ListItemIcon>
-                                    <Typography><a href="/terms"> Условия </a></Typography>
+                                <ListItemIcon> <Forum style={{color: "#9e9689"}}/> </ListItemIcon>
+                                    <Typography style={{color: "#e8e6e3"}}> Условия </Typography>
                             </ListItem>
-                            <ListItem button key="Contact us">
-                                <ListItemIcon> <LocalPhone /> </ListItemIcon>
-                                    <Typography><a href="/contacts"> Контакты </a></Typography>
-                            </ListItem>
+                            </Link>
+                            <Link to="/contacts">
+                                <ListItem button key="Contact us">
+                                    <ListItemIcon> <LocalPhone style={{color: "#9e9689"}}/> </ListItemIcon>
+                                        <Typography style={{color: "#e8e6e3"}}> Контакты </Typography>
+                                </ListItem>
+                            </Link>
                             <Divider />
 
                             <div className={classes.deposit}/>

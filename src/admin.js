@@ -12,6 +12,10 @@ import { Grid } from '@material-ui/core';
 import { LineChart, XAxis, Tooltip, Line, CartesianGrid } from 'recharts';
 import Withdraw from './adminWithdraw';
 
+import { useStoreApi } from "./storeApi";
+import useWeb3 from "./useWeb3";
+import jsonAbi from "./abi/rentContract.json";
+
 const data = [
     { month: 'Январь', sum: '100000' },
     { month: 'Февраль', sum: '106800' },
@@ -93,6 +97,8 @@ const companyRows = [
 ];
 
 function Admin(){
+    const { balance, address, message, setAddress, setBalance } = useStoreApi();
+    const web3 = useWeb3();
 
     return (
         <div className="textsAdmin">

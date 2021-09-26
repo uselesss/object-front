@@ -31,7 +31,8 @@ a:active {
 }
 
 body {
-    background-color: black;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, body2, p {
@@ -40,6 +41,7 @@ h1, h2, h3, h4, h5, body2, p {
 }
 
 .terms {
+    color: #e8e6e3;
     font-family: Courier;
     font-size: large;
     margin-left: 230px;
@@ -58,6 +60,7 @@ h1, h2, h3, h4, h5, body2, p {
 }
 
 .mainPageDiv {
+    color: #e8e6e3;
     font-family: Courier;
     font-size: large;
     margin-left: 230px;

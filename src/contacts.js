@@ -8,9 +8,10 @@ const useStyles = makeStyles({
     root: {
         width: 500,
         height: 350,
-        backgroundColor: "#ebf5fc",
-        marginTop: "13rem",
-        marginLeft: "47rem",
+        backgroundColor: "#21262d",
+        color: "#e8e6e3",
+        marginTop: "10%",
+        marginLeft: "40%",
         zIndex: "1",
     },
     title: {

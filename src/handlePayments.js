@@ -39,11 +39,14 @@ function Deposit() {
         inputProps={{ step: "any" }}
         type="number"
         variant="filled"
+        color="primary"
       />
       <Button
       variant="filled"
       color="primary"
-      type="submit">
+      type="submit"
+      style={{color: "white"}}
+      >
       Пополнить счет
       </Button>
     </form>

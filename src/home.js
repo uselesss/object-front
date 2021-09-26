@@ -16,18 +16,15 @@ import Typography from '@material-ui/core/Typography';
 import { Collapse, Grid } from '@material-ui/core';
 import { AccountTree } from '@material-ui/icons';
 
-let mounted = false;
-
 function UserRents() {
     const { balance, address, message, setAddress } = useStoreApi();
     const web3 = useWeb3();
-    
+
     const [cards, setCards] = useState();
     const [contBalance, setBalance] = useState();
 
     useEffect(async () => {
-        if (web3 && !mounted) {
-            mounted = true
+        if (web3) {
             const getContractsLength = async () => {
                 var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
                 var rentsCount = await RentContract.methods.getContractsLength().call()
@@ -56,7 +53,6 @@ function UserRents() {
 
                 for (let i = 0; i < rentsCount; i++) {
                     let info = await getContract(i)
-                    console.log(info.tenant)
 
                     if (info.tenant == sender) {
                         cardsRender.push(
@@ -66,6 +62,7 @@ function UserRents() {
                                     area={info.area}
                                     price={info.monthlyPrice}
                                     date={info.paymentDate}
+                                    payed={info.opPayed}
                                 />
                             </Grid>
                         )
@@ -80,15 +77,15 @@ function UserRents() {
                 setBalance(bal / 1e18)
             }
             else {
-                setCards(<h2 style={{marginTop: "20px", marginLeft: "20px"}}>MetaMask не подключен!</h2>)
+                setCards(<h2 style={{ marginTop: "20px", marginLeft: "20px", fontSize: "40px" }}>MetaMask не подключен!</h2>)
             }
         }
-    });    
- 
+    });
+
 
     return (
         <div className="mainPageDiv">
-            <div>Ваш баланс: {contBalance ? contBalance : "..."} ETH 😳</div>
+            <div>Ваш баланс: {contBalance ? contBalance : "0"} ETH</div>
             <div>Ваши лоты:</div>
 
             <Grid container spacing={4}>
@@ -99,26 +96,87 @@ function UserRents() {
 
 }
 
+
 function RentInfoCard(props) {
+    const { balance, address, message, setAddress } = useStoreApi();
+    const web3 = useWeb3();
+    const today = new Date();
+
+    const terminate = async e => {
+
+        const accounts = await web3.eth.getAccounts();
+        const sender = accounts[0].toString();
+
+        var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
+        var term = await RentContract.methods.terminateContract(
+            props.id,
+        ).send(
+            {
+                from: sender,
+                value: 0,
+                gas: 4000000
+            },
+            (err, res) => err ? console.log(`error ${err}`) : console.log(`Success ${res}`)
+        );
+
+    }
+
+    const payOp = async e => {
+        e.preventDefault()
+        const accounts = await web3.eth.getAccounts();
+        const sender = accounts[0].toString();
+
+        var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
+        var term = await RentContract.methods.payOffOp(
+            props.id,
+        ).send(
+            {
+                from: sender,
+                value: 0,
+                gas: 4000000
+            },
+            (err, res) => err ? console.log(`error ${err}`) : console.log(`Success ${res}`)
+        );
+
+    }
+
     return (
-        <Card>
-            <CardActionArea>
-                <CardContent>
-                    <img src={Nice} alt="Nice!" />
-                    <Typography gutterBottom variant="h5" component="h2">
-                        Лот #{props.id+1}
+        <Card style={{backgroundColor: "#181a1b"}}>
+            <CardContent style={{color: "#fff"}}>
+                <img src={Nice} alt="Nice!" style={{display: "block", marginLeft: "auto", marginRight: "auto", marginBottom: "10px"}}/>
+                <Typography gutterBottom variant="h5" component="h2" style={{color: "#fff"}}>
+                    Лот #{props.id + 1}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p" style={{color: "#fff"}}>
+                    Площадь: {props.area} м^2
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p" style={{color: "#fff"}}>
+                    Договор заключен: {props.date} числа
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p" style={{color: "#fff"}}>
+                    Статус ОП: {props.payed ? ("Оплачен") : ("Не оплачен")}
+                </Typography>
+                {props.payed ? ("") :
+                    <Typography variant="body2" color="textSecondary" component="p" style={{color: "#fff"}}>
+                        Осталось дней для оплаты: {10 - (today.getDate() - props.date)}
                     </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        Площадь: {props.area} м^2
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        Статус: Оплачено
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        Дата оплаты: {props.date} число
-                    </Typography>
-                </CardContent>
-            </CardActionArea>
+                }
+            </CardContent>
+
+            <CardActions>
+                <Button onClick={e => terminate(e, props.id)} color="primary"> 
+                    Расторгнуть контракт
+                </Button>
+                {props.payed ? ("") :
+                    <Button 
+                        onClick={e => payOp(e)}
+                        style={{ position: "relative", left: "4rem"}}
+                        color="primary"
+                    >
+                        Оплатить ОП
+                    </Button>
+                }
+            </CardActions>
         </Card>
     );
 }
