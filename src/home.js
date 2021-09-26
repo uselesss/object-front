@@ -5,6 +5,7 @@ import Nice from './images/nice.png';
 import { useStoreApi } from "./storeApi";
 import useWeb3 from "./useWeb3";
 import jsonAbi from "./abi/rentContract.json";
+import {contractAddress} from "./contractAddress"
 
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -26,19 +27,19 @@ function UserRents() {
     useEffect(async () => {
         if (web3) {
             const getContractsLength = async () => {
-                var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
+                var RentContract = new web3.eth.Contract(jsonAbi, contractAddress)
                 var rentsCount = await RentContract.methods.getContractsLength().call()
                 return rentsCount
             }
 
             const getContract = async (id) => {
-                var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
+                var RentContract = new web3.eth.Contract(jsonAbi, contractAddress)
                 var contract = await RentContract.methods.rentContracts(id).call()
                 return contract
             }
 
             const getBalance = async (userAddress) => {
-                var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
+                var RentContract = new web3.eth.Contract(jsonAbi, contractAddress)
                 var balance = await RentContract.methods.balances(userAddress).call()
                 return balance
             }
@@ -61,8 +62,9 @@ function UserRents() {
                                     id={i}
                                     area={info.area}
                                     price={info.monthlyPrice}
-                                    date={info.paymentDate}
+                                    timestamp={info.paymentTimestamp}
                                     payed={info.opPayed}
+                                    imagePath={info.imagePath}
                                 />
                             </Grid>
                         )
@@ -100,14 +102,15 @@ function UserRents() {
 function RentInfoCard(props) {
     const { balance, address, message, setAddress } = useStoreApi();
     const web3 = useWeb3();
-    const today = new Date();
+    var paymentDate = new Date(parseInt(props.timestamp) * 1000);
+
 
     const terminate = async e => {
 
         const accounts = await web3.eth.getAccounts();
         const sender = accounts[0].toString();
 
-        var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
+        var RentContract = new web3.eth.Contract(jsonAbi, contractAddress)
         var term = await RentContract.methods.terminateContract(
             props.id,
         ).send(
@@ -126,7 +129,7 @@ function RentInfoCard(props) {
         const accounts = await web3.eth.getAccounts();
         const sender = accounts[0].toString();
 
-        var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
+        var RentContract = new web3.eth.Contract(jsonAbi, contractAddress)
         var term = await RentContract.methods.payOffOp(
             props.id,
         ).send(
@@ -139,11 +142,10 @@ function RentInfoCard(props) {
         );
 
     }
-
     return (
         <Card style={{backgroundColor: "#181a1b"}}>
             <CardContent style={{color: "#fff"}}>
-                <img src={Nice} alt="Nice!" style={{display: "block", marginLeft: "auto", marginRight: "auto", marginBottom: "10px"}}/>
+                <img src={props.imagePath} alt="Nice!" style={{display: "block", marginLeft: "auto", marginRight: "auto", marginBottom: "10px", width:"300px"}}/>
                 <Typography gutterBottom variant="h5" component="h2" style={{color: "#fff"}}>
                     Лот #{props.id + 1}
                 </Typography>
@@ -151,14 +153,14 @@ function RentInfoCard(props) {
                     Площадь: {props.area} м^2
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p" style={{color: "#fff"}}>
-                    Договор заключен: {props.date} числа
+                    Договор заключен: {paymentDate.toString()}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p" style={{color: "#fff"}}>
                     Статус ОП: {props.payed ? ("Оплачен") : ("Не оплачен")}
                 </Typography>
                 {props.payed ? ("") :
                     <Typography variant="body2" color="textSecondary" component="p" style={{color: "#fff"}}>
-                        Осталось дней для оплаты: {10 - (today.getDate() - props.date)}
+                        Осталось дней для оплаты: {"TODO FIX ME"}
                     </Typography>
                 }
             </CardContent>

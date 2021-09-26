@@ -1,6 +1,7 @@
 import { useStoreApi } from "./storeApi";
 import useWeb3 from "./useWeb3";
 import jsonAbi from "./abi/rentContract.json";
+import {contractAddress} from "./contractAddress"
 
 import { Button, TextField } from "@material-ui/core";
 
@@ -17,7 +18,7 @@ function Withdraw() {
     
     const wamount = web3.utils.toWei(amount, "ether");
 
-    var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052");
+    var RentContract = new web3.eth.Contract(jsonAbi, contractAddress);
     
     var transact = await RentContract.methods.withdraw(sender, wamount).send(
       { 

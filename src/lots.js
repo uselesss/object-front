@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Collapse, Grid } from '@material-ui/core';
 import { ExpandLess, ExpandMore, InfoSharp } from '@material-ui/icons';
+import {contractAddress} from "./contractAddress";
 
 import { useStoreApi } from "./storeApi";
 import useWeb3 from "./useWeb3";
@@ -33,7 +34,6 @@ const useStyles = makeStyles({
 });
 
 function Lots() {
-
     const { balance, address, message, setAddress, setBalance } = useStoreApi();
     const web3 = useWeb3();
 
@@ -44,13 +44,13 @@ function Lots() {
         if (web3) {
 
             const getContractsLength = async () => {
-                var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
+                var RentContract = new web3.eth.Contract(jsonAbi, contractAddress)
                 var rentsCount = await RentContract.methods.getContractsLength().call()
                 return rentsCount
             }
 
             const getContract = async (id) => {
-                var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
+                var RentContract = new web3.eth.Contract(jsonAbi, contractAddress)
                 var contract = await RentContract.methods.rentContracts(id).call()
                 return contract
             }
@@ -72,6 +72,7 @@ function Lots() {
                                 price={info.monthlyPrice}
                                 rentStatus={info.isOccupied ? ("Лот занят") : ("Арендовать за " + (info.monthlyPrice / 10 ** 18).toString()) + " ETH"}
                                 boolStatus={info.isOccupied}
+                                imagePath={info.imagePath}
                             />
                         </Grid>
                     )
@@ -111,11 +112,10 @@ function MediaCard(props) {
         console.log(props.price)
         console.log(contractDate)
 
-        var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052")
+        var RentContract = new web3.eth.Contract(jsonAbi, contractAddress)
         var contract = await RentContract.methods.signContract(
             props.id,
-            false,
-            day
+            false
         ).send(
             {
                 from: sender,
@@ -130,6 +130,7 @@ function MediaCard(props) {
     return (
         <Card style={{backgroundColor: "#181a1b"}}>
             <CardContent>
+                <img src={props.imagePath} alt="Nice!" style={{display: "block", marginLeft: "auto", marginRight: "auto", marginBottom: "10px", width:"300px"}}/>
                 <Typography gutterBottom variant="h5" component="h2" style={{color: "#fff"}}> 
                     Лот #{props.id + 1}
                 </Typography>

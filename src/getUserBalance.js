@@ -2,6 +2,7 @@ import { useStoreApi } from "./storeApi";
 import useWeb3 from "./useWeb3";
 
 import jsonAbi from "./abi/rentContract.json";
+import {contractAddress} from "./contractAddress"
 
 function getUSerBalance() {
   const { balance, address, message, setAddress, setBalance } = useStoreApi();
@@ -14,7 +15,7 @@ function getUSerBalance() {
     const accounts = await web3.eth.getAccounts();
     const sender = accounts[0].toString();
     
-    var RentContract = new web3.eth.Contract(jsonAbi, "0x6a799980f5499f8000c5d842eeb95e38ded69052");
+    var RentContract = new web3.eth.Contract(jsonAbi, contractAddress);
     
     var transact = await RentContract.methods.deposit(sender).send(
       { 
