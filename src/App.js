@@ -27,32 +27,22 @@ import "./css/style.css";
 // Web3
 import useWeb3 from "./useWeb3";
 
-const drawerWidth = 220;
+// Logo 
+import Logo from "./images/logo.svg";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
     },
     appBar: {
+        display: 'flex',
         zIndex: theme.zIndex.drawer + 1,
         background: "#161b22",
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    drawerPaper: {
-        marginTop: "0.7rem",
-        width: drawerWidth,
-        background: "#21262d"
     },
     drawerContainer: {
         overflow: 'auto',
         color: "#584C7F"
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(2),
     },
     title: {
         textAlign: "center",
@@ -61,77 +51,60 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         "flex-direction": "column",
         marginBottom: "27rem",
+    },
+    navBar: {
+        display: "flex",
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center"
     }
 }));
 
 export default function App() {
     const classes = useStyles();
 
-    const { balance, address, message, setAddress, setBalance } = useStoreApi(); 
-    const web3 = useWeb3();
+    const { balance, address, message, setAddress, setBalance } = useStoreApi();
 
     return (
         <Router>
-            <div className={classes.root}>
-            
-                <CssBaseline />
-                <AppBar position="fixed" className={classes.appBar}>
-                    <Toolbar>
-                        <h1>Rent service</h1>
-                        <div style={{
-                          display: "block",
-                          transform: "translate(68rem, 0)"
-                        }}>
-                        <ConnectButton/>{message ? (<p><code>{message}</code></p>) : null}
-                        </div>
-                        
-                    </Toolbar>
-                </AppBar>
-                <Drawer
-                    className={classes.drawer}
-                    variant="permanent"
-                    classes={{
-                        paper: classes.drawerPaper,
-                    }}
-                >
-                    <Toolbar />
-                    <div className={classes.drawerContainer}>
-                        <List>
-                            <Divider />
-                            <Link to="/">
-                                <ListItem button key="Home page" >
-                                    <ListItemIcon > <HomeIcon style={{color: "#9e9689"}}/> </ListItemIcon>
-                                        <Typography style={{color: "#e8e6e3"}}> Домой </Typography>
-                                </ListItem>
-                            </Link>
-                            <Link to="/lots">
-                                <ListItem button key="Lots">
-                                    <ListItemIcon> <FilterNone style={{color: "#9e9689"}}/> </ListItemIcon>
-                                    <Typography style={{color: "#e8e6e3"}}> Лоты </Typography>
-                                </ListItem>
-                            </Link>
-                            <Divider />
-                            <Link to="/terms">
-                            <ListItem button key="Terms">
-                                <ListItemIcon> <Forum style={{color: "#9e9689"}}/> </ListItemIcon>
-                                    <Typography style={{color: "#e8e6e3"}}> Условия </Typography>
-                            </ListItem>
-                            </Link>
-                            <Link to="/contacts">
-                                <ListItem button key="Contact us">
-                                    <ListItemIcon> <LocalPhone style={{color: "#9e9689"}}/> </ListItemIcon>
-                                        <Typography style={{color: "#e8e6e3"}}> Контакты </Typography>
-                                </ListItem>
-                            </Link>
-                            <Divider />
+            <AppBar position="fixed" className={classes.appBar}>
+                <Toolbar >
+                    <Link to="/">
+                        <img src={Logo} alt="Logo" className="logo"/>
+                    </Link>
 
-                            <div className={classes.deposit}/>
-                            
-                            <Deposit/>
-                        </List>
+                    <div className={classes.navBar}>
+                        <Link to="/">
+                            <ListItem button key="Home page" className={classes.zxc}>
+                                <ListItemIcon > <HomeIcon style={{color: "#9e9689"}}/> </ListItemIcon>
+                                    <Typography style={{color: "#e8e6e3"}}> Домой </Typography>
+                            </ListItem>
+                        </Link>
+                        <Link to="/lots">
+                            <ListItem button key="Lots">
+                                <ListItemIcon> <FilterNone style={{color: "#9e9689"}}/> </ListItemIcon>
+                                <Typography style={{color: "#e8e6e3"}}> Лоты </Typography>
+                            </ListItem>
+                        </Link>
+                        <Link to="/terms">
+                        <ListItem button key="Terms">
+                            <ListItemIcon> <Forum style={{color: "#9e9689"}}/> </ListItemIcon>
+                                <Typography style={{color: "#e8e6e3"}}> Условия </Typography>
+                        </ListItem>
+                        </Link>
+                        <Link to="/contacts">
+                            <ListItem button key="Contact us">
+                                <ListItemIcon> <LocalPhone style={{color: "#9e9689"}}/> </ListItemIcon>
+                                    <Typography style={{color: "#e8e6e3"}}> Контакты </Typography>
+                            </ListItem>
+                        </Link>
                     </div>
-                </Drawer>
-                </div>
+                    
+                    <ConnectButton/>{message ? (<p><code>{message}</code></p>) : null}
+                    
+                </Toolbar>
+            </AppBar>
+
                 <Switch>
                     <Route exact path="/" component={UserRents} />
                     <Route exact path="/map" component={Map} />

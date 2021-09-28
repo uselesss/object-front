@@ -81,6 +81,8 @@ function UserRents() {
             else {
                 setCards(<h2 style={{ marginTop: "20px", marginLeft: "20px", fontSize: "40px" }}>MetaMask не подключен!</h2>)
             }
+        } else {
+            setCards(<div class="lds-hourglass"></div>)
         }
     });
 

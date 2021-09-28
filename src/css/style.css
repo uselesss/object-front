@@ -30,9 +30,12 @@ a:active {
     color: black;
 }
 
+
 body {
     max-width: 100%;
     overflow-x: hidden;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
 }
 
 h1, h2, h3, h4, h5, body2, p {
@@ -40,11 +43,14 @@ h1, h2, h3, h4, h5, body2, p {
     font-family: Courier;
 }
 
+.logo {
+    width: 40px;
+}
+
 .terms {
     color: #e8e6e3;
     font-family: Courier;
     font-size: large;
-    margin-left: 230px;
     margin-top: 90px;
     line-break: auto;
 }
@@ -63,7 +69,6 @@ h1, h2, h3, h4, h5, body2, p {
     color: #e8e6e3;
     font-family: Courier;
     font-size: large;
-    margin-left: 230px;
     margin-top: 90px;
 }
 
@@ -75,7 +80,6 @@ h1, h2, h3, h4, h5, body2, p {
 }
 
 .cardsGrid {
-    margin-left: 230px;
     margin-top: 90px;
 }
 
@@ -105,4 +109,38 @@ h1, h2, h3, h4, h5, body2, p {
 .cardsGridAdmin {
     margin-left: 220px;
     margin-top: 10px;
+}
+
+
+/* Loading animation */
+.lds-hourglass {
+    margin: 0 auto;
+  }
+
+.lds-hourglass:after {
+    content: " ";
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+    width: 0;
+    height: 0;
+    margin: 8px;
+    box-sizing: border-box;
+    border: 32px solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: lds-hourglass 1.2s infinite;
+}
+
+@keyframes lds-hourglass {
+    0% {
+        transform: rotate(0);
+        animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+    50% {
+        transform: rotate(900deg);
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    100% {
+        transform: rotate(1800deg);
+    }
 }

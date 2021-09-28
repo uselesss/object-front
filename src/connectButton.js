@@ -52,7 +52,7 @@ function ConnectButton() {
   return address ?(
     <div>
       {address.slice(0, 6)}...{address.slice(
-              address.length - 12,
+              address.length - 6,
               address.length
         )}
     </div>

@@ -15,26 +15,7 @@ import { useStoreApi } from "./storeApi";
 import useWeb3 from "./useWeb3";
 import jsonAbi from "./abi/rentContract.json";
 
-const header = {
-    'Access-Control-Allow-Origin': '*',
-}
-
-/*let data = {}*/
-let propsForCard = {};
-let mounted = false;
-
-const useStyles = makeStyles({
-    root: {
-        maxWidth: 345,
-        minWidth: 200,
-    },
-    media: {
-        height: 140,
-    },
-});
-
 function Lots() {
-    const { balance, address, message, setAddress, setBalance } = useStoreApi();
     const web3 = useWeb3();
 
     const [cards, setCards] = useState();
@@ -42,7 +23,6 @@ function Lots() {
     useEffect(async () => {
 
         if (web3) {
-
             const getContractsLength = async () => {
                 var RentContract = new web3.eth.Contract(jsonAbi, contractAddress)
                 var rentsCount = await RentContract.methods.getContractsLength().call()
@@ -80,6 +60,8 @@ function Lots() {
             }
 
             setCards(cardsRender)
+        } else {
+            setCards(<div class="lds-hourglass"></div>)
         }
     });
 
@@ -95,7 +77,6 @@ function Lots() {
 }
 
 function MediaCard(props) {
-    const { balance, address, message, setAddress, setBalance } = useStoreApi();
     const web3 = useWeb3();
 
     const sign = async e => {
@@ -130,7 +111,7 @@ function MediaCard(props) {
     return (
         <Card style={{backgroundColor: "#181a1b"}}>
             <CardContent>
-                <img src={props.imagePath} alt="Nice!" style={{display: "block", marginLeft: "auto", marginRight: "auto", marginBottom: "10px", width:"300px"}}/>
+                <img src={props.imagePath} alt="Nice!" style={{display: "block", marginLeft: "auto", marginRight: "auto", marginBottom: "10px", width:"300px", height: "200px"}}/>
                 <Typography gutterBottom variant="h5" component="h2" style={{color: "#fff"}}> 
                     Лот #{props.id + 1}
                 </Typography>

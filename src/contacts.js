@@ -6,16 +6,19 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
     root: {
+        display: "flex",
         width: 500,
         height: 350,
         backgroundColor: "#21262d",
         color: "#e8e6e3",
         marginTop: "10%",
-        marginLeft: "40%",
+        marginLeft: "35%",
         zIndex: "1",
     },
     title: {
-        marginTop: "4rem",
+        display: "flex",
+        justifyContent: "center",
+        textAlign: "center",
         fontSize: 28,
         fontFamily: "Courier",
     },
@@ -36,8 +39,7 @@ function Contacts() {
             <Card className={classes.root}>
                 <CardContent>
                     <Typography className={classes.title}><strong>Contacts of landlord</strong></Typography>
-                    <div><h1></h1></div>
-                    <div><h1></h1></div>
+                    <br/>
                     <Typography className={classes.text}>mobile: +79998241231</Typography>
                     <Typography className={classes.text}>fax: +79998241231</Typography>
                     <Typography className={classes.text}>email: admin@rent.tech</Typography>
