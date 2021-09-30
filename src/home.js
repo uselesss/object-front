@@ -147,7 +147,7 @@ function RentInfoCard(props) {
     return (
         <Card style={{backgroundColor: "#181a1b"}}>
             <CardContent style={{color: "#fff"}}>
-                <img src={props.imagePath} alt="Nice!" style={{display: "block", marginLeft: "auto", marginRight: "auto", marginBottom: "10px", width:"300px"}}/>
+                <img src={props.imagePath} alt="rentImg" style={{display: "block", marginLeft: "auto", marginRight: "auto", marginBottom: "10px", width:"300px"}}/>
                 <Typography gutterBottom variant="h5" component="h2" style={{color: "#fff"}}>
                     Лот #{props.id + 1}
                 </Typography>

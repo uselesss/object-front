@@ -32,6 +32,8 @@ a:active {
 
 
 body {
+    margin-left: 5%;
+    margin-right: 5%;
     max-width: 100%;
     overflow-x: hidden;
     -ms-overflow-style: none; 
@@ -45,6 +47,22 @@ h1, h2, h3, h4, h5, body2, p {
 
 .logo {
     width: 40px;
+}
+
+.logo:hover {
+    animation-duration: 0.40s;
+    animation-name: logoHover;
+    animation-fill-mode: forwards;
+}
+
+@keyframes logoHover {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(180deg);
+        filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(-30deg) brightness(104%) contrast(97%);
+    }
 }
 
 .terms {
