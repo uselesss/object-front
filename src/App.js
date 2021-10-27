@@ -35,40 +35,25 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
     },
-    appBar: {
-        display: 'flex',
-        zIndex: theme.zIndex.drawer + 1,
-        background: "#161b22",
-    },
-    drawerContainer: {
-        overflow: 'auto',
-        color: "#584C7F"
-    },
-    title: {
-        textAlign: "center",
-    },
-    deposit: {
-        display: "flex",
-        "flex-direction": "column",
-        marginBottom: "27rem",
-    },
     navBar: {
         display: "flex",
         width: "100%",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+
     }
 }));
 
 export default function App() {
     const classes = useStyles();
-
+    
     const { balance, address, message, setAddress, setBalance } = useStoreApi();
+    
 
     return (
-        <Router>
-            <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar >
+        <Router >
+            <AppBar className="appBar">
+                <Toolbar className="toolBar">
                     <Link to="/">
                         <img src={Logo} alt="Logo" className="logo"/>
                     </Link>
@@ -77,25 +62,25 @@ export default function App() {
                         <Link to="/">
                             <ListItem button key="Home page" className={classes.zxc}>
                                 <ListItemIcon > <HomeIcon style={{color: "#9e9689"}}/> </ListItemIcon>
-                                    <Typography style={{color: "#e8e6e3"}}> Домой </Typography>
+                                    <Typography style={{color: "#e8e6e3"}}> <a> Домой </a> </Typography>
                             </ListItem>
                         </Link>
                         <Link to="/lots">
                             <ListItem button key="Lots">
                                 <ListItemIcon> <FilterNone style={{color: "#9e9689"}}/> </ListItemIcon>
-                                <Typography style={{color: "#e8e6e3"}}> Лоты </Typography>
+                                <Typography style={{color: "#e8e6e3"}}> <a> Лоты </a></Typography>
                             </ListItem>
                         </Link>
                         <Link to="/terms">
                         <ListItem button key="Terms">
                             <ListItemIcon> <Forum style={{color: "#9e9689"}}/> </ListItemIcon>
-                                <Typography style={{color: "#e8e6e3"}}> Условия </Typography>
+                                <Typography style={{color: "#e8e6e3"}}> <a> Условия</a> </Typography>
                         </ListItem>
                         </Link>
                         <Link to="/contacts">
                             <ListItem button key="Contact us">
                                 <ListItemIcon> <LocalPhone style={{color: "#9e9689"}}/> </ListItemIcon>
-                                    <Typography style={{color: "#e8e6e3"}}> Контакты </Typography>
+                                    <Typography style={{color: "#e8e6e3"}}> <a> Контакты </a></Typography>
                             </ListItem>
                         </Link>
                     </div>
@@ -114,6 +99,6 @@ export default function App() {
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/admin" component={Admin} />
                 </Switch>
-            </Router>
+        </Router>
     );
 }

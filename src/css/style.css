@@ -1,35 +1,7 @@
-.map {
-    -webkit-user-drag: none;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 70%;
-}
-
-.map:hover {
-    filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
-}
-
 a:link {
     text-decoration: none;
     color: black;
 }
-
-a:visited {
-    text-decoration: none;
-    color: black;
-}
-
-a:hover {
-    text-decoration: none;
-    color: black;
-}
-
-a:active {
-    text-decoration: none;
-    color: black;
-}
-
 
 body {
     margin-left: 5%;
@@ -42,7 +14,7 @@ body {
 
 h1, h2, h3, h4, h5, body2, p {
     text-align: center;
-    font-family: Courier;
+    /* font-family: Courier; */
 }
 
 .logo {
@@ -67,10 +39,10 @@ h1, h2, h3, h4, h5, body2, p {
 
 .terms {
     color: #e8e6e3;
-    font-family: Courier;
-    font-size: large;
+    /* font-family: Courier; */
+    /* font-size: large; */
     margin-top: 90px;
-    line-break: auto;
+    /* line-break: auto; */
 }
 
 .header {
@@ -85,7 +57,7 @@ h1, h2, h3, h4, h5, body2, p {
 
 .mainPageDiv {
     color: #e8e6e3;
-    font-family: Courier;
+    /* font-family: Courier; */
     font-size: large;
     margin-top: 90px;
 }
@@ -119,15 +91,21 @@ h1, h2, h3, h4, h5, body2, p {
     margin: 20rem;
 }
 
-.textsAdmin {
-    margin-left: 240px;
-    margin-top: 120px;
+.appBar {
+    display: 'flex';
+    z-index: 2;
+    color: #161b22;
 }
 
-.cardsGridAdmin {
-    margin-left: 220px;
-    margin-top: 10px;
+.toolBar {
+    background-color: #161b22;
 }
+
+.textsAdmin {
+    color: #e8e6e3;
+    margin-top: 80px;
+}
+
 
 
 /* Loading animation */
@@ -160,5 +138,32 @@ h1, h2, h3, h4, h5, body2, p {
     }
     100% {
         transform: rotate(1800deg);
+    }
+}
+
+/* Mobile */
+@media all and  (max-width:770px) {
+    a {
+        font-size: 0px !important;
+    }
+
+    .appBar {
+        position: absolute;
+    }
+
+    .cardsGrid {
+        margin-top: 0px;
+    }
+}
+
+@media all and (max-width:550px) {
+    img {
+        display: none;
+    }
+}
+
+@media all and (max-width:500px) {
+    .connect {
+        display: none;
     }
 }

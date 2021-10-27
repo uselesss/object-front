@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
-import Nice from './images/nice.png';
-
 import { useStoreApi } from "./storeApi";
 import useWeb3 from "./useWeb3";
 import jsonAbi from "./abi/rentContract.json";
 import {contractAddress} from "./contractAddress"
 
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { Collapse, Grid } from '@material-ui/core';
-import { AccountTree } from '@material-ui/icons';
+import { Grid } from '@material-ui/core';
 
 function UserRents() {
     const { balance, address, message, setAddress } = useStoreApi();
@@ -50,7 +45,7 @@ function UserRents() {
             if (accounts[0]) {
                 const sender = accounts[0].toString()
 
-                let cardsRender = [];
+                var cardsRender = [];
 
                 for (let i = 0; i < rentsCount; i++) {
                     let info = await getContract(i)
@@ -73,7 +68,6 @@ function UserRents() {
 
                 setCards(cardsRender)
 
-
                 //get the balance
                 let bal = await getBalance(accounts[0].toString())
                 setBalance(bal / 1e18)
@@ -89,23 +83,21 @@ function UserRents() {
 
     return (
         <div className="mainPageDiv">
-            <div>Ваш баланс: {contBalance ? contBalance : "0"} ETH</div>
-            <div>Ваши лоты:</div>
+            <h5 style={{textAlign: "center"}}>ВАШИ ЛОТЫ</h5>
 
             <Grid container spacing={4}>
                 {cards}
             </Grid>
         </div>
     );
-
 }
-
 
 function RentInfoCard(props) {
     const { balance, address, message, setAddress } = useStoreApi();
     const web3 = useWeb3();
     var paymentDate = new Date(parseInt(props.timestamp) * 1000);
 
+    if (web3) web3.eth.defaultChain = 'kovan';
 
     const terminate = async e => {
 

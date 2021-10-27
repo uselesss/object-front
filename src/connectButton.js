@@ -49,21 +49,24 @@ function ConnectButton() {
     return balance;
   }; 
 
-  return address ?(
-    <div>
-      {address.slice(0, 6)}...{address.slice(
-              address.length - 6,
+  return address ? (
+    <div className = "connect">
+      {address.slice(0, 4)}...{address.slice(
+              address.length - 4,
               address.length
         )}
     </div>
   ) : (
+    <div className = "connect">
     <Button
-        onClick={() => getUserAccount()}
-        variant="outlined"
-        style={{backgroundColor: "#584C7F", color: "white"}}
-        >
-        Подключить кошелек
-        </Button>
+      onClick={() => getUserAccount()}
+      variant="outlined"
+      className="connect"
+      style={{backgroundColor: "#584C7F", color: "white", fontSize: "10px"}}
+    >
+      Подключить кошелек
+    </Button>
+    </div>
   );
 }
 

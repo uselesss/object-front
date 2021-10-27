@@ -22,50 +22,50 @@ function Lots() {
     
     useEffect(async () => {
 
-        if (web3) {
-            const getContractsLength = async () => {
-                var RentContract = new web3.eth.Contract(jsonAbi, contractAddress)
-                var rentsCount = await RentContract.methods.getContractsLength().call()
-                return rentsCount
-            }
-
-            const getContract = async (id) => {
-                var RentContract = new web3.eth.Contract(jsonAbi, contractAddress)
-                var contract = await RentContract.methods.rentContracts(id).call()
-                return contract
-            }
-
-            let rentsCount = await getContractsLength()
-
-            let cardsRender = [];
-
-            for (let i = 0; i < rentsCount; i++) {
-                let info = await getContract(i)
-
-                if (info) {
-                    cardsRender.push(
-                        <Grid item xs={12} sm={6} md={4}>
-                            <MediaCard
-                                id={i}
-                                area={info.area}
-                                status={info.isOccupied ? "Занято" : "Свободно"}
-                                price={info.monthlyPrice}
-                                rentStatus={info.isOccupied ? ("Лот занят") : ("Арендовать за " + (info.monthlyPrice / 10 ** 18).toString()) + " ETH"}
-                                boolStatus={info.isOccupied}
-                                imagePath={info.imagePath}
-                                isAuction={info.isAuction}
-                                info={info}
-                            />
-                        </Grid>
-                    )
-                }
-            }
-
-            setCards(cardsRender)
-        } else {
-            setCards(<div class="lds-hourglass"></div>)
+    if (web3) {
+        const getContractsLength = async () => {
+            var RentContract = new web3.eth.Contract(jsonAbi, contractAddress)
+            var rentsCount = await RentContract.methods.getContractsLength().call()
+            return rentsCount
         }
-    });
+
+        const getContract = async (id) => {
+            var RentContract = new web3.eth.Contract(jsonAbi, contractAddress)
+            var contract = await RentContract.methods.rentContracts(id).call()
+            return contract
+        }
+
+        let rentsCount = await getContractsLength()
+
+        let cardsRender = [];
+
+        for (let i = 0; i < rentsCount; i++) {
+            let info = await getContract(i)
+
+            if (info) {
+                cardsRender.push(
+                    <Grid item xs={12} sm={6} md={4}>
+                        <MediaCard
+                            id={i}
+                            area={info.area}
+                            status={info.isOccupied ? "Занято" : "Свободно"}
+                            price={info.monthlyPrice}
+                            rentStatus={info.isOccupied ? ("Лот занят") : ("Арендовать за " + (info.monthlyPrice / 10 ** 18).toString()) + " ETH"}
+                            boolStatus={info.isOccupied}
+                            imagePath={info.imagePath}
+                            isAuction={info.isAuction}
+                            info={info}
+                        />
+                    </Grid>
+                )
+            }
+        }
+
+        setCards(cardsRender)
+    } else {
+        setCards(<div class="lds-hourglass"></div>)
+    }
+});
 
 
     return (
@@ -154,9 +154,9 @@ function MediaCard(props) {
                 
             </CardContent>
             <CardActions>
-                <Button size="medium" color="primary" onClick={e => sign(e)}>
+                <Button size="medium" color="primary" onClick={props.info.hasEnded ? ("") : (e => sign(e))}>
                     {props.isAuction ? 
-                        (`Предложить ${parseInt(props.info.monthlyPrice)/1e18} ETH`)  
+                        (props.info.hasEnded ? "аукцион завершен" : `Предложить ${parseInt(props.info.monthlyPrice)/1e18} ETH`)  
                         : 
                         (props.rentStatus)
                     }
