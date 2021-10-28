@@ -2,6 +2,10 @@ import { useStoreApi } from "./storeApi";
 import useWeb3 from "./useWeb3";
 import jsonAbi from "./abi/rentContract.json";
 import {contractAddress} from "./contractAddress"
+import "./css/admin.css"
+import Form from 'react-bootstrap/Form'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {FloatingLabel} from "react-bootstrap";
 
 import { Button, TextField } from "@material-ui/core";
 
@@ -33,23 +37,20 @@ function Withdraw() {
   }; 
 
   return (
-    
-    <form onSubmit={e => sendTransaction(e)}>
-      <TextField
-        required
-        label="Кол-во ETH"
-        inputProps={{ step: "any" }}
-        type="number"
-        variant="filled"
-      />
-      <Button
-        variant="filled"
-        color="primary"
-        type="submit"
-      >
-      Вывести средства
-      </Button>
-    </form>
+    <div className="adminWithdraw">
+      <form onSubmit={e => sendTransaction(e)}>
+        <FloatingLabel controlId="floatingTextarea" label="Количество (ETH)" className="mb-3">
+          <Form.Control placeholder="Enter amount"/>
+        </FloatingLabel> 
+        <Button
+          variant="filled"
+          color="primary"
+          type="submit"
+        >
+        Вывести средства
+        </Button>
+      </form>
+    </div>
   );
 }
 

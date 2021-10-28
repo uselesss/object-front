@@ -83,7 +83,7 @@ function UserRents() {
 
     return (
         <div className="mainPageDiv">
-            <h5 style={{textAlign: "center"}}>ВАШИ ЛОТЫ</h5>
+            <h5 style={{textAlign: "center"}}>Ваши лоты</h5>
 
             <Grid container spacing={4}>
                 {cards}

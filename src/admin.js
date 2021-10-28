@@ -1,4 +1,4 @@
-﻿import React, {useCallback, useState} from 'react';
+﻿import React, {useCallback, useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -24,11 +24,12 @@ import Datetime from "react-datetime";
 import moment from 'moment';
 import { DateTime } from 'react-datetime-bootstrap';
 import TextField from '@material-ui/core/TextField';
-
+import TablePaginationActions from '@material-ui/core/TablePagination/TablePaginationActions';
 
 function Admin() {
     const [showauct, setShow] = useState('')
     const [neworupdate, setNeworupdate] = useState('')
+    const [contractBalance, setContractBalance] = useState('')
 
     const web3 = useWeb3();
     const { balance, address, message, setAddress } = useStoreApi();
@@ -83,10 +84,11 @@ function Admin() {
         const area = e.target[1].value
         const image = e.target[2].value
         const contractId = e.target[4].value - 1
-        let endTimestamp
+        let endTimestamp, auctTick
 
         if (showauct) {
             endTimestamp = e.target[6].value
+            auctTick = e.target[7].value
         }
 
         if (web3) {
@@ -101,7 +103,7 @@ function Admin() {
                     showauct,
                     false,
                     false,
-                    0,
+                    showauct ? auctTick : 0,
                     showauct ? Date.parse(endTimestamp) : 0,
                     0,
                     0,
@@ -126,7 +128,6 @@ function Admin() {
     const removeC = async e => {
         e.preventDefault()
         const id = e.target[0].value - 1
-        console.log(id)
 
         if (web3) {
             var RentContract = new web3.eth.Contract(jsonAbi, contractAddress)
@@ -145,9 +146,16 @@ function Admin() {
             );
         }
     }
-
+    
     return (
         <div className="main__cards">
+            <div className="card">
+                <i
+                        className="fa fa-user-o fa-2x text-lightblue"
+                        aria-hidden="true"
+                ></i>
+                <div className="texts" style={{fontSize: "big"}}>Ожидаемый доход за этот месяц: </div>
+            </div>
             <form onSubmit={neworupdate ? e => updateC(e) : e => createC(e)}>
                 <div className="card">
                     <h3 className="texts">Создание/Обновление лота</h3>
@@ -178,8 +186,13 @@ function Admin() {
                         showauct ? 
                         <div style={{margin:"10px 0 10px 0"}}>
                             <div>
-                                 <h5 className="texts">Конец аукциона:</h5>
-                                 <Datetime input='true'/>
+                                <h5 className="texts">Парметры аукциона:</h5>
+                                <div className="texts">Конец аукцона</div>
+                                <Datetime input='true'/>
+                                <br/>
+                                <FloatingLabel controlId="floatingTextarea" label="Шаг аукцона (ETH)" className="mb-3">
+                                    <Form.Control placeholder="Tick"/>
+                                </FloatingLabel>
                             </div>
                         </div> : ""
                     }
@@ -200,6 +213,11 @@ function Admin() {
                     <Button className="submit texts" style={{color: "white"}} type="submit">Подтвердить</Button>
                 </div>
             </form>
+            <div className="card">
+                <div className="texts" style={{fontSize: "medium"}}>Баланс контракта: {contractBalance}</div>
+                <br/>
+                <Withdraw/> 
+            </div>
         </div>
     );
 }
