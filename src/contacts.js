@@ -4,6 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
+import { contractAddress } from './contractAddress';
 const useStyles = makeStyles({
     
     display : {
@@ -15,7 +16,7 @@ const useStyles = makeStyles({
     
     root: {
         display: "flex",
-        width: 500,
+        width: 700,
         height: 350,
         backgroundColor: "#21262d",
         color: "#e8e6e3",
@@ -44,8 +45,8 @@ function Contacts() {
                     <Typography className={classes.title}><strong>Contacts of landlord</strong></Typography>
                     <br/>
                     <Typography className={classes.text}>mobile: +79998241231</Typography>
-                    <Typography className={classes.text}>fax: +79998241231</Typography>
                     <Typography className={classes.text}>email: admin@uselezzz.tech</Typography>
+                    <Typography className={classes.text}>Contract address: {contractAddress}</Typography>
                 </CardContent>
             </Card>
         </div>

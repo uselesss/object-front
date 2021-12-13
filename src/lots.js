@@ -42,7 +42,7 @@ function Lots() {
         for (let i = 0; i < rentsCount; i++) {
             let info = await getContract(i)
 
-            if (info) {
+            if (info && info.area != 0) {
                 cardsRender.push(
                     <Grid item xs={12} sm={6} md={4}>
                         <MediaCard

@@ -34,6 +34,14 @@ function Admin() {
     const web3 = useWeb3();
     const { balance, address, message, setAddress } = useStoreApi();
 
+    const getBal = async () => {
+        let bal;
+        if (web3) {
+            bal = await web3.eth.getBalance(contractAddress)
+            setContractBalance(bal / 1e18)
+        }
+    }
+    getBal()
     const createC = async e => {
         e.preventDefault()
         const price = (e.target[0].value * 1e18).toString()
@@ -154,7 +162,7 @@ function Admin() {
                         className="fa fa-user-o fa-2x text-lightblue"
                         aria-hidden="true"
                 ></i>
-                <div className="texts" style={{fontSize: "big"}}>Ожидаемый доход за этот месяц: </div>
+                <div className="texts" style={{fontSize: "big"}}>Ожидаемый доход за этот месяц: 1.3 ETH</div>
             </div>
             <form onSubmit={neworupdate ? e => updateC(e) : e => createC(e)}>
                 <div className="card">
@@ -163,7 +171,7 @@ function Admin() {
                         className="fa fa-user-o fa-2x text-lightblue"
                         aria-hidden="true"
                     ></i>
-                    <FloatingLabel controlId="floatingTextarea" label="Цена (ETH)" className="mb-3">
+                    <FloatingLabel controlId="floatingTextarea" label="Цена в мес. (ETH)" className="mb-3">
                         <Form.Control placeholder="Enter amount"/>
                     </FloatingLabel>
                     <FloatingLabel controlId="floatingTextarea" label="Площадь (м²)" className="mb-3">
@@ -214,7 +222,7 @@ function Admin() {
                 </div>
             </form>
             <div className="card">
-                <div className="texts" style={{fontSize: "medium"}}>Баланс контракта: {contractBalance}</div>
+                <div className="texts" style={{fontSize: "medium"}}>Баланс контракта: {contractBalance} ETH</div>
                 <br/>
                 <Withdraw/> 
             </div>

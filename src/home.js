@@ -152,11 +152,6 @@ function RentInfoCard(props) {
                 <Typography variant="body2" color="textSecondary" component="p" style={{color: "#fff"}}>
                     Статус ОП: {props.payed ? ("Оплачен") : ("Не оплачен")}
                 </Typography>
-                {props.payed ? ("") :
-                    <Typography variant="body2" color="textSecondary" component="p" style={{color: "#fff"}}>
-                        Осталось дней для оплаты: {"TODO FIX ME"}
-                    </Typography>
-                }
             </CardContent>
 
             <CardActions>
